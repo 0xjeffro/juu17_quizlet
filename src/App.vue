@@ -2,7 +2,7 @@
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   <div>
-    {{getUrlParam('chatID')}}
+    {{getUrlParam('tgWebAppStartParam')}}
     {{test}}
   </div>
   <van-config-provider :theme-vars="themeVars">
