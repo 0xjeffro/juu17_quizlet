@@ -1,6 +1,6 @@
 <template>
   <div style="border-radius:5%; background-color: white;
-  padding: 20px 30px; margin: 0 15px;">
+  padding: 20px 25px; margin: 0 12px;">
     <span style="color: #2c3e50; display:inline-block; font-weight: bold; font-size: small; text-align: left;">
       {{questionId}}. {{question.title}}
     </span>
