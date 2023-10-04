@@ -2,7 +2,6 @@
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   <div>
-    {{getUrlParam('tgWebAppStartParam')}}
     {{test}}
   </div>
   <van-config-provider :theme-vars="themeVars">
@@ -107,17 +106,6 @@ export default {
       this.answers[questionId - 1] = answer
       console.log(this.answers)
     },
-    getUrlParam(param) {
-      let query = window.location.search.substring(1);
-      let vars = query.split('&');
-      for (let i = 0; i < vars.length; i++) {
-        var pair = vars[i].split('=');
-        if (pair[0] == param) {
-          return decodeURI(pair[1]);
-        }
-      }
-      return false;
-    },
   },
   computed: {
     calculateScore() {
@@ -130,7 +118,7 @@ export default {
       return score
     },
     test() {
-      return this.$window.Telegram.WebApp
+      return this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
     }
   }
 
