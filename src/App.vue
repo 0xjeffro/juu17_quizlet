@@ -14,7 +14,7 @@
                   v-on:set-answer="setAnswer"
     />
 
-    <result-card :score="calculateScore" v-if="active === 3"></result-card>
+    <result-card :score="calculateScore" v-show="active === 3"></result-card>
 
     <van-button
         type="primary" size="large" @click="nextQuestion"
