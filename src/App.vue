@@ -1,6 +1,7 @@
 <template>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+  <div>{{test}}</div>
   <van-config-provider :theme-vars="themeVars">
     <van-steps :active="active">
       <van-step>第一题</van-step>
@@ -90,6 +91,9 @@ export default {
       answers: [-1, -1, -1]
     };
   },
+  created() {
+      this.$window = window
+  },
   methods: {
     nextQuestion() {
       this.active++;
@@ -110,6 +114,9 @@ export default {
         }
       }
       return score
+    },
+    test() {
+      return this.$window.Telegram.WebApp
     }
   }
 
