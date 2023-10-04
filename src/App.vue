@@ -1,7 +1,10 @@
 <template>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-  <div>{{test}}</div>
+  <div>
+    {{getUrlParam('chatID')}}
+    {{test}}
+  </div>
   <van-config-provider :theme-vars="themeVars">
     <van-steps :active="active">
       <van-step>第一题</van-step>
@@ -103,6 +106,17 @@ export default {
       console.log('set-answer', questionId, answer)
       this.answers[questionId - 1] = answer
       console.log(this.answers)
+    },
+    getUrlParam(param) {
+      let query = window.location.search.substring(1);
+      let vars = query.split('&');
+      for (let i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (pair[0] == param) {
+          return decodeURI(pair[1]);
+        }
+      }
+      return false;
     },
   },
   computed: {
