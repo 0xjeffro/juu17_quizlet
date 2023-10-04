@@ -1,9 +1,6 @@
 <template>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-  <div>
-    {{test}}
-  </div>
   <van-config-provider :theme-vars="themeVars">
     <van-steps :active="active">
       <van-step>第一题</van-step>
@@ -49,6 +46,7 @@ import { Step, Steps } from 'vant';
 import { Button } from 'vant';
 import { Cell, CellGroup } from 'vant';
 import 'vant/lib/index.css';
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -106,6 +104,26 @@ export default {
       this.answers[questionId - 1] = answer
       console.log(this.answers)
     },
+    sendResult() {
+      let userId = this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
+      let chatId = -1001611670994
+      let pass = this.calculateScore === 3 ? true : false
+      this.axios = axios.create({
+        baseURL: 'https://8725-103-116-72-8.ngrok-free.app',
+        timeout: 5000,
+        //headers: {'Content-Type': 'application/json'}
+      });
+      this.axios.post('/testResult', {
+        user_id: userId,
+        chat_id: chatId,
+        pass: pass
+      }).then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
   },
   computed: {
     calculateScore() {
@@ -117,8 +135,12 @@ export default {
       }
       return score
     },
-    test() {
-      return this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
+  },
+  watch: {
+    active: function (newVal) {
+      if (newVal === 3) {
+        this.sendResult()
+      }
     }
   }
 
