@@ -137,8 +137,14 @@ export default {
   watch: {
     active: function (newVal) {
       if (newVal === 3) {
-        this.$window.Telegram.WebApp.showCloseButton(true)
         this.sendResult()
+        let mainButton = this.$window.Telegram.WebApp.MainButton
+        mainButton.show()
+        mainButton.setText('关闭')
+        mainButton.onClick(() => {
+          mainButton.hide()
+          this.$window.Telegram.WebApp.close()
+        })
       }
     }
   }
