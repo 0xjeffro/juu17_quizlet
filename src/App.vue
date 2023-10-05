@@ -106,16 +106,14 @@ export default {
     },
     sendResult() {
       let userId = this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
-      let chatId = -1001611670994
       let pass = this.calculateScore === 3 ? true : false
       this.axios = axios.create({
         baseURL: 'https://8725-103-116-72-8.ngrok-free.app',
         timeout: 5000,
-        //headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': 'application/json'}
       });
       this.axios.post('/testResult', {
         user_id: userId,
-        chat_id: chatId,
         pass: pass
       }).then(function (response) {
             console.log(response);
