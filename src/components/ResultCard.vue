@@ -38,10 +38,11 @@
 import {Rate} from 'vant';
 import { Row } from 'vant';
 import { Image as VanImage } from 'vant';
+import { Loading } from 'vant';
 export default {
   name: "ResultCard",
   props: {
-    score: Number
+    score: Number,
   },
   data() {
     return {
@@ -50,7 +51,8 @@ export default {
   components: {
     [Rate.name]: Rate,
     [Row.name]: Row,
-    [VanImage.name]: VanImage
+    [VanImage.name]: VanImage,
+    [Loading.name]: Loading
   },
   computed: {
     value: {
@@ -62,7 +64,7 @@ export default {
         // read only, so do nothing
         console.log(newValue)
       },
-    },
+    }
   },
 }
 </script>

@@ -20,7 +20,7 @@
         type="primary" size="large" @click="nextQuestion"
         style="margin-top: 20px"
         :disabled="answers[active] === -1"
-        v-if="active < 3"
+        v-if="active < 3 && uploaded === 'uploading'"
         >
       下一题
     </van-button>
@@ -29,10 +29,23 @@
         :type="calculateScore === 3 ? 'success' : 'warning'" size="large"
         style="margin-top: 20px"
         :disabled="answers[active] === -1"
-        v-if="active === 3"
+        v-if="active === 3 && uploaded === 'success'"
     >
       {{calculateScore === 3 ? '恭喜通关！欢迎加入 👏' : '再接再厉，请15分钟后再来挑战！'}}
     </van-button>
+
+    <van-button
+        size="large"
+        plain
+        hairline
+        loading
+        type="primary"
+        style="margin-top: 20px"
+        v-if="active === 3 && uploaded === 'uploading' || uploaded === 'fail'"
+        :loading-text="loadingText"
+    />
+
+
   </van-config-provider>
 </template>
 
@@ -49,6 +62,7 @@ import { showToast } from 'vant';
 import { showLoadingToast } from 'vant';
 import { showSuccessToast, showFailToast } from 'vant';
 import { setToastDefaultOptions, resetToastDefaultOptions } from 'vant';
+import { Loading } from 'vant';
 import 'vant/lib/index.css';
 import axios from 'axios';
 
@@ -69,6 +83,7 @@ export default {
     [showFailToast.name]: showFailToast,
     [setToastDefaultOptions.name]: setToastDefaultOptions,
     [resetToastDefaultOptions.name]: resetToastDefaultOptions,
+    [Loading.name]: Loading
   },
   setup() {
     const themeVars = reactive({
@@ -97,7 +112,9 @@ export default {
     return {
       active: 0,
       questionNumber: 0,
-      answers: [-1, -1, -1]
+      answers: [-1, -1, -1],
+      uploaded: "uploading", // success, fail
+      loadingText: "结果上传中..."
     };
   },
   created() {
@@ -118,12 +135,9 @@ export default {
       let userId = 1
       let pass = this.calculateScore === 3 ? true : false
       let window = this.$window
+      let that = this
       setToastDefaultOptions({
         position: 'top',
-      })
-      showLoadingToast({
-        message: '上传结果中...',
-        forbidClick: true,
       });
       this.axios = axios.create({
         baseURL: 'https://juu17bot.jeffro.io',
@@ -135,7 +149,7 @@ export default {
         pass: pass
       }).then(function (response) {
             console.log(response);
-            showSuccessToast('上传成功！');
+            that.uploaded = "success"
             let mainButton = window.Telegram.WebApp.MainButton
             mainButton.show()
             mainButton.setText('关闭')
@@ -145,7 +159,11 @@ export default {
             })
           })
           .catch(function (error) {
-            showFailToast('网络错误');
+            that.uploaded = "fail"
+            setTimeout(() => {
+              that.loadingText = "结果上传失败，请检查网络"
+            }, 1000)
+
             console.log(error);
             let mainButton = window.Telegram.WebApp.MainButton
             mainButton.show()
