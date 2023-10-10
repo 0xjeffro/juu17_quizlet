@@ -131,8 +131,7 @@ export default {
       console.log(this.answers)
     },
     sendResult() {
-      // let userId = this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
-      let userId = 1
+      let userId = this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
       let pass = this.calculateScore === 3 ? true : false
       let window = this.$window
       let that = this
