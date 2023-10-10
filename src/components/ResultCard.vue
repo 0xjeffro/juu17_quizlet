@@ -1,5 +1,5 @@
 <template>
-  <div style="border-radius:5%; background-color: white;
+  <div style="border-radius:16px; background-color: white;
   padding: 20px 30px; margin: 0 15px;">
     <van-row justify="center">
       <van-rate

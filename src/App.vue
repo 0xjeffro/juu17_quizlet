@@ -89,8 +89,8 @@ export default {
     const themeVars = reactive({
       stepIconSize: '20px',
       stepCircleSize: '10px',
-      stepsBackground: 'var(--tg-color-scheme)',
-      background2: 'var(--tg-color-scheme)',
+      stepsBackground: '#f7f7f7',
+      background2: '#f7f7f7',
     })
 
     // 从question中随机抽取3道题目
@@ -208,6 +208,7 @@ export default {
   margin-right: 5%;
 }
 body {
-  background-color: var(--tg-color-scheme);
+  /*background-color: var(--tg-color-scheme);*/
+  background-color: #f7f7f7;
 }
 </style>
