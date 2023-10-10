@@ -31,7 +31,7 @@
         :disabled="answers[active] === -1"
         v-if="active === 3"
     >
-      {{calculateScore === 3 ? '恭喜通关！欢迎加入 👏' : '再接再厉'}}
+      {{calculateScore === 3 ? '恭喜通关！欢迎加入 👏' : '再接再厉，请15分钟后再来挑战！'}}
     </van-button>
   </van-config-provider>
 </template>
@@ -45,6 +45,9 @@ import { ConfigProvider } from 'vant';
 import { Step, Steps } from 'vant';
 import { Button } from 'vant';
 import { Cell, CellGroup } from 'vant';
+import { showToast } from 'vant';
+import { showLoadingToast } from 'vant';
+import { showSuccessToast, showFailToast } from 'vant';
 import 'vant/lib/index.css';
 import axios from 'axios';
 
@@ -59,7 +62,10 @@ export default {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
     [ConfigProvider.name]: ConfigProvider,
-
+    [showToast.name]: showToast,
+    [showLoadingToast.name]: showLoadingToast,
+    [showSuccessToast.name]: showSuccessToast,
+    [showFailToast.name]: showFailToast,
   },
   setup() {
     const themeVars = reactive({
@@ -105,8 +111,14 @@ export default {
       console.log(this.answers)
     },
     sendResult() {
-      let userId = this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
+      // let userId = this.$window.Telegram.WebApp["initDataUnsafe"]["user"]["id"]
+      let userId = 1
       let pass = this.calculateScore === 3 ? true : false
+      let window = this.$window
+      showLoadingToast({
+        message: '上传结果中...',
+        forbidClick: true,
+      });
       this.axios = axios.create({
         baseURL: 'https://juu17bot.jeffro.io',
         timeout: 5000,
@@ -117,9 +129,25 @@ export default {
         pass: pass
       }).then(function (response) {
             console.log(response);
+            showSuccessToast('上传成功！');
+            let mainButton = window.Telegram.WebApp.MainButton
+            mainButton.show()
+            mainButton.setText('关闭')
+            mainButton.onClick(() => {
+              mainButton.hide()
+              window.Telegram.WebApp.close()
+            })
           })
           .catch(function (error) {
+            showFailToast('网络错误');
             console.log(error);
+            let mainButton = window.Telegram.WebApp.MainButton
+            mainButton.show()
+            mainButton.setText('关闭')
+            mainButton.onClick(() => {
+              mainButton.hide()
+              window.Telegram.WebApp.close()
+            })
           });
     }
   },
@@ -138,13 +166,6 @@ export default {
     active: function (newVal) {
       if (newVal === 3) {
         this.sendResult()
-        let mainButton = this.$window.Telegram.WebApp.MainButton
-        mainButton.show()
-        mainButton.setText('关闭')
-        mainButton.onClick(() => {
-          mainButton.hide()
-          this.$window.Telegram.WebApp.close()
-        })
       }
     }
   }
