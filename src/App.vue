@@ -48,6 +48,7 @@ import { Cell, CellGroup } from 'vant';
 import { showToast } from 'vant';
 import { showLoadingToast } from 'vant';
 import { showSuccessToast, showFailToast } from 'vant';
+import { setToastDefaultOptions, resetToastDefaultOptions } from 'vant';
 import 'vant/lib/index.css';
 import axios from 'axios';
 
@@ -66,6 +67,8 @@ export default {
     [showLoadingToast.name]: showLoadingToast,
     [showSuccessToast.name]: showSuccessToast,
     [showFailToast.name]: showFailToast,
+    [setToastDefaultOptions.name]: setToastDefaultOptions,
+    [resetToastDefaultOptions.name]: resetToastDefaultOptions,
   },
   setup() {
     const themeVars = reactive({
@@ -115,6 +118,9 @@ export default {
       let userId = 1
       let pass = this.calculateScore === 3 ? true : false
       let window = this.$window
+      setToastDefaultOptions({
+        position: 'top',
+      })
       showLoadingToast({
         message: '上传结果中...',
         forbidClick: true,
