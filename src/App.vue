@@ -208,6 +208,6 @@ export default {
   margin-right: 5%;
 }
 body {
-  background-color: #f7f7f7;
+  background-color: var(--tg-color-scheme);
 }
 </style>
