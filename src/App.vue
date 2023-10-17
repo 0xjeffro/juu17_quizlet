@@ -31,7 +31,7 @@
         :disabled="answers[active] === -1"
         v-if="active === 3 && uploaded === 'success'"
     >
-      {{calculateScore === 3 ? '恭喜通关！欢迎加入 👏' : '再接再厉，请15分钟后再来挑战！'}}
+      {{calculateScore === 3 ? '恭喜通关！欢迎加入 👏' : '再接再厉，请30分钟后再来挑战！'}}
     </van-button>
 
     <van-button
