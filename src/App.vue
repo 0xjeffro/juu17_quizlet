@@ -139,7 +139,7 @@ export default {
         position: 'top',
       });
       this.axios = axios.create({
-        baseURL: 'https://juu17bot.jeffro.io',
+        baseURL: 'https://juu17bot.onrender.com',
         timeout: 5000,
         headers: {'Content-Type': 'application/json'}
       });
